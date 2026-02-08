@@ -50,7 +50,7 @@ abstract: "Prototypical self-supervised learning methods consistently suffer fro
 
 
 ## Background
-Prototypical self-supervised learning (SSL) uses learnable prototypes to define structured targets that guide representation learning. However, many frameworks suffer from a phenomena known as **partial prototype collapse**, where a substantial fraction of the prototypes become redundant, converging to nearly identical representations. A key empirical observation in our study is that this collapse occurs **early** in training. This is problematic as it diminishes target diversity in the SSL objective, which can be especially harmful when training using long-tailed data distributions. A common response is to over-parameterize the prototype set, increasing computation and memory costs, or to add ad-hoc diversity regularizers, at the cost of additional hyperparameters.
+Prototypical self-supervised learning (SSL) uses learnable prototypes to define structured targets that guide representation learning. However, many frameworks suffer from a phenomena known as *partial prototype collapse*, where a substantial fraction of the prototypes become redundant, converging to nearly identical representations. A key empirical observation in our study is that this collapse occurs *early* in training. This is problematic as it diminishes target diversity in the SSL objective, which can be especially harmful when training using long-tailed data distributions. A common response is to over-parameterize the prototype set, increasing computation and memory costs, or to add ad-hoc diversity regularizers, at the cost of additional hyperparameters.
 
 
 
