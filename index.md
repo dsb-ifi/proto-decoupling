@@ -36,8 +36,7 @@ affiliations:
       link: https://unicamp.br/en/
 paper: https://arxiv.org/abs/2510.20108
 # video: https://www.youtube.com/@UniOslo
-code: "{{ site.github.repository_url }}" # in case you want to use the same repo where the gh-pages is (the most common setup)
-# code: https://github.com/dsb-ifi # in case you want to hard-code the repo
+code: https://github.com/dsb-ifi/proto-decoupling
 # data: https://huggingface.co/docs/
 
 abstract: Prototypical self-supervised learning methods consistently suffer from partial prototype collapse, where multiple prototypes converge to nearly identical representations. This undermines their central purpose---providing diverse and informative targets to guide encoders toward rich representations---and has led practitioners to over-parameterize prototype sets or add ad-hoc regularizers, which mitigate symptoms rather than address the root cause. We empirically trace the collapse to the joint optimization of encoders and prototypes, which encourages a type of shortcut learning: early in training prototypes drift toward redundant representations that minimize loss without necessarily enhancing representation diversity. To break the joint optimization, we introduce a fully decoupled training strategy that learns prototypes and encoders under separate objectives. Concretely, we model prototypes as a Gaussian mixture updated with an online EM-style procedure, independent of the encoder's loss. This simple yet principled decoupling eliminates prototype collapse without explicit regularization and yields consistently diverse prototypes, which in several settings translate to improved downstream performance.
@@ -57,10 +56,14 @@ Prototypical self-supervised learning (SSL) uses learnable prototypes to define 
 
 ## Problem Formulation
 
-Traditional prototypical SSL *jointly* optimizes an encoder $f_\theta$ and a prototype set \( C = \{c_k\}_{k=1}^K \) by minimizing a consistency loss over augmented views:  
+Traditional prototypical SSL *jointly* optimizes an encoder $f_\theta$ and a prototype set $C = \\{c_k\\}_{k=1}^K$ by minimizing a consistency loss over augmented views:
+
 $$
+\begin{align}
 \min_{\theta,\,C}\; \mathcal{L}_f(f_\theta, C).
-$$
+\end{align}
+$$  
+
 We argue that this joint objective can induce *shortcut learning*: early in training, prototypes are incentivized to drift toward redundant configurations that reduce $\mathcal{L}_f$ without necessarily improving the overall representations of the the encoder, undermining the purpose of learning $C$.
 
 
@@ -68,15 +71,23 @@ We argue that this joint objective can induce *shortcut learning*: early in trai
 Instead of optimizing $(\theta, C)$ jointly, we propose to *fully decouple* prototype estimation from encoder learning and alternate two updates at iteration $t$:  
 
 **(i) Prototype update**:  
+
 $$
-C^{t} = \operatorname*{arg\,min}_{C\in\mathcal{C}}\; \mathcal{L}_C\left(C^{t-1}, h^{t}_\phi\right)
+\begin{align}
+C^{t} = \operatorname*{arg\,min}_{C\in\mathcal{C}}\; \mathcal{L}_C\left(C^{t-1}, h^{t}_\phi\right).
+\end{align}
 $$  
+
 We update $C$ via an expectation maximization (EM) procedure *independently* of the encoder's loss.
 
 (ii) **Encoder update:**  
+
 $$
-\theta^{t+1}=\operatorname*{arg\,min}_{\theta}\;\mathcal{L}_f \left(h^t_\theta, C^{t}\right)
+\begin{align}
+\theta^{t+1}=\operatorname*{arg\,min}_{\theta}\;\mathcal{L}_f \left(h^t_\theta, C^{t}\right).
+\end{align}
 $$  
+
 We update the encoder while keeping the prototypes $C^t$ fixed. Our proposed solution is illustrated in the figure below: 
 
 
