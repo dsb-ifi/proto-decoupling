@@ -88,7 +88,7 @@ We update the encoder while keeping the prototypes $C^t$ fixed. Our proposed sol
 
 
 ![proto-dec Figure 2](figures/decoupling_framework.png "Decoupling Framework")
-**Figure 2:** **(a)** *Joint optimization of the encoder and prototypes, which can induce shortcut learning and prototype collapse. * **(b)** *Our decoupled framework which separates prototype updates from encoder learning, preventing collapse and preserving prototype diversity.*
+**Figure 2:** **(a)** *Joint optimization of the encoder and prototypes, which can induce shortcut learning and prototype collapse.  **(b)** Our decoupled framework which separates prototype updates from encoder learning, preventing collapse and preserving prototype diversity.*
 
 ---
 
