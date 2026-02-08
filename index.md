@@ -6,30 +6,47 @@ permalink: /
 # accent: '#D21111'
 # accent: darkorange
 
-title: Your title goes here
+title: Why Prototypes Collapse: Diagnosing and Preventing Partial Collapse in Prototypical Self-Supervised Learning
 authors:
-    - name: John Doe
-      link: https://en.wikipedia.org/wiki/John_Doe
+    - name: Gabriel Y. Arteaga
+      link: https://gabriel-arteaga.github.io/
       affiliation: 1
-    - name: Jane Doe
+    - name: Marius Aasan
       affiliation: 1
+    - name: Rwiddhi Chakraborty
+      affiliation: 2
+      link: https://rwchakra.github.io/
+    - name: Martine Hjelkrem-Tan
+      affiliation: 1
+    - name: Thalles Silva
+      affiliation: 3
+      link: https://sthalles.github.io/
+    - name: Michael Kampffmeyer
+      affiliation: 2
+      link: https://sites.google.com/view/michaelkampffmeyer
+    - name: Adín Ramírez Rivera
+      affiliation: 1
+      link: https://adin.gitlab.io/
 affiliations:
     - name: University of Oslo
       link: https://uio.no
-paper: https://arxiv.org
-video: https://www.youtube.com/@UniOslo
+    - name: UiT The Arctic University of Norway
+      link: https://en.uit.no/startsida 
+    - name: University of Campinas
+      link: https://unicamp.br/en/
+paper: https://arxiv.org/abs/2510.20108
+# video: https://www.youtube.com/@UniOslo
 code: "{{ site.github.repository_url }}" # in case you want to use the same repo where the gh-pages is (the most common setup)
 # code: https://github.com/dsb-ifi # in case you want to hard-code the repo
 # data: https://huggingface.co/docs/
 
-abstract: The "computable" numbers may be described briefly as the real numbers whose expressions as a decimal are calculable by finite means. Although the subject of this paper is ostensibly the computable numbers. it is almost equally easy to define and investigate computable functions of an integral variable or a real or computable variable, computable predicates, and so forth. The fundamental problems involved are, however, the same in each case, and I have chosen the computable numbers for explicit treatment as involving the least cumbrous technique. I hope shortly to give an account of the relations of the computable numbers, functions, and so forth to one another. This will include a development of the theory of functions of a real variable expressed in terms of computable numbers. According to my definition, a number is computable if its decimal can be written down by a machine... 
+abstract: Prototypical self-supervised learning methods consistently suffer from partial prototype collapse, where multiple prototypes converge to nearly identical representations. This undermines their central purpose---providing diverse and informative targets to guide encoders toward rich representations---and has led practitioners to over-parameterize prototype sets or add ad-hoc regularizers, which mitigate symptoms rather than address the root cause. We empirically trace the collapse to the joint optimization of encoders and prototypes, which encourages a type of shortcut learning: early in training prototypes drift toward redundant representations that minimize loss without necessarily enhancing representation diversity. To break the joint optimization, we introduce a fully decoupled training strategy that learns prototypes and encoders under separate objectives. Concretely, we model prototypes as a Gaussian mixture updated with an online EM-style procedure, independent of the encoder's loss. This simple yet principled decoupling eliminates prototype collapse without explicit regularization and yields consistently diverse prototypes, which in several settings translate to improved downstream performance.
 
-carousels:
-  - images: 
-    - image: ManegeLR1.jpg
-    - image: Floris_Carousel.jpg
-    - image: Carrousel-LouisXIV-1662.jpg
-    - image: Turing_machine.png
+---
+
+![proto-dec Figure 1](figures/uniform_plot.png "Uniformity Plot")
+**Figure 1**: *Visualization of prototype distributions for different prototypical SSL methods. Existing methods exhibit pronounced mode collapse, with prototypes concentrating into a small number of regions. In contrast, ours maintains a well-spread and uniform prototype distribution, showing no visible signs of prototypical collapse.*
+
 ---
 
 
@@ -39,50 +56,60 @@ carousels:
 <!-- Information about the carousel: https://talk.jekyllrb.com/t/slider-carousel-in-minimal-theme/6782/3 -->
 {% include carousel.html height="50" unit="%" number="1" %}
 
-
 ## Background
-The paper "On Computable Numbers, with an Application to the Entscheidungsproblem" was published by Alan Turing in 1936. In this groundbreaking paper, Turing introduced the concept of a universal computing machine, now known as the Turing machine.
-
-## Objective
-Turing's main objective in this paper was to investigate the notion of computability and its relation to the Entscheidungsproblem (the decision problem), which is concerned with determining whether a given mathematical statement is provable or not.
+Prototypical self-supervised learning (SSL) uses learnable prototypes to define structured targets that guide representation learning. However, many frameworks suffer from a phenomena known as **partial prototype collapse**, where a substantial fraction of the prototypes become redundant, converging to nearly identical representations. A key empirical observation in our study is that this collapse occurs **early** in training. This is problematic as it diminishes target diversity in the SSL objective, which can be especially harmful when training using long-tailed data distributions. A common response is to over-parameterize the prototype set, increasing computation and memory costs, or to add ad-hoc diversity regularizers, at the cost of additional hyperparameters.
 
 
-## Key Ideas
-1. Turing first presented the concept of a "computable number," which refers to a number that can be computed by an algorithm or a definite step-by-step process.
-2. He introduced the notion of a Turing machine, an abstract computational device consisting of an infinite tape divided into cells and a read-write head. The machine can read and write symbols on the tape, move the head left or right, and transition between states based on a set of rules.
-3. Turing demonstrated that the set of computable numbers is enumerable, meaning it can be listed in a systematic way, even though it is not necessarily countable.
-4. He proved the existence of non-computable numbers, which cannot be computed by any Turing machine.
-5. Turing showed that the Entscheidungsproblem is undecidable, meaning there is no algorithm that can determine, for any given mathematical statement, whether it is provable or not.
 
-<!-- You can place the images in the default folder (defined in the template at /assets/images/ in _config.yml) by appending the path to the image names (site.image_base_path), or you can place them in the same directory as index.md and simply name them. -->
-![Turing Machine]({{ site.image_base_path | append: "Turing_machine.png" | absolute_url }})
+## Problem Formulation
 
-*Figure 1: A representation of a Turing Machine. Source: [Wiki](https://en.wikipedia.org/wiki/Turing_machine).*
+Traditional prototypical SSL **jointly** optimizes an encoder $f_\theta$ and a prototype set $C=\{c_k\}_{k=1}^K$ by minimizing a consistency loss over augmented views:
+$$
+\min_{\theta,\,C}\; \mathcal{L}_f(f_\theta, C).
+$$
+We argue that this joint objective can induce **shortcut learning**: early in training, prototypes are incentivized to drift toward redundant configurations that reduce $\mathcal{L}_f$ without necessarily improving the overall representations of the the encoder, undermining the purpose of learning $C$.
 
-## Table: Comparison of Computable and Non-Computable Numbers
 
-| Computable Numbers | Non-Computable Numbers |
-|-------------------|-----------------------|
-| Rational numbers, e.g., 1/2, 3/4 | Transcendental numbers, e.g., π, e |
-| Algebraic numbers, e.g., √2, ∛3 | Non-algebraic numbers, e.g., √2 + √3 |
-| Numbers with finite decimal representations | Numbers with infinite, non-repeating decimal representations |
+### Proposed Solution
+Instead of optimizing $(\theta, C)$ jointly, we propose to **fully decouple** prototype estimation from encoder learning and alternate two updates at iteration $t$:
+**(i) Prototype update**:
+$$
+C^{t} = \operatorname*{arg\,min}_{C\in\mathcal{C}}\; \mathcal{L}_C\left(C^{t-1}, h^{t}_\phi\right)
+$$
+We update $C$ via an expectation maximization (EM) procedure **independently** of the encoder's loss.
 
-He used the concept of a universal Turing machine to prove that the set of computable functions is recursively enumerable, meaning it can be listed by an algorithm.
+(ii) **Encoder update:**
+$$
+\theta^{t+1}=\operatorname*{arg\,min}_{\theta}\;\mathcal{L}_f \left(h^t_\theta, C^{t}\right)
+$$
+We update the encoder while keeping the prototypes $C^t$ fixed. Our proposed solution is illustrated in the figure below: 
 
-## Significance
-Turing's paper laid the foundation for the theory of computation and had a profound impact on the development of computer science. The Turing machine became a fundamental concept in theoretical computer science, serving as a theoretical model for studying the limits and capabilities of computation. Turing's work also influenced the development of programming languages, algorithms, and the design of modern computers.
+--
 
+![proto-dec Figure 2](figures/decoupling_framework.png "Decoupling Framework")
+**Figure 2:** *(a) Joint optimization of the encoder and prototypes, which can induce shortcut learning and prototype collapse. (b) Our decoupled framework which separates prototype updates from encoder learning, preventing collapse and preserving prototype diversity.*
+
+--
+
+### Results
+Across most existing prototypical SSL frameworks, we observe a consistent pattern of **early** partial prototype collapse, where a substantial subset of the prototypes rapidly becomes redundant within the first stages of training. In contrast, our decoupled optimization strategy exhibits **no observable collapse** throughout training. This behavior remains stable even as we progressively **tighten the criterion used to declare collapse**, i.e., adopting increasingly strict notions of prototype redundancy. While our method also yields improved performance on several downstream tasks, the primary finding is its robustness against prototype collapse, highlighting the effectiveness of decoupling prototype estimation from encoder learning.
+
+--
+
+![proto-dec Figure 3](figures/decoupling_framework.png "Unique Prototypes over Different Thresholds")
+**Figure 3:** *Left: Percentage of unique prototypes versus the collapse threshold $\epsilon$, where larger $\epsilon$ enforces a stricter notion of uniqueness. Existing methods exhibit increasing prototype collapse as the criterion becomes stricter, whereas our proposed decoupled approach shows no collapse across all thresholds. Right: k-NN performance, indicating that preserving prototype diversity can improve downstream performance.*
+
+--
 ## Citation
 {% raw %}
 ```
-@article{turing1936computable,
-  title={On computable numbers, with an application to the Entscheidungsproblem},
-  author={Turing, Alan Mathison},
-  journal={Journal of Mathematics},
-  volume={58},
-  number={345-363},
-  pages={5},
-  year={1936}
+@inproceedings{
+arteaga2026prototypes,
+title={Why Prototypes Collapse: Diagnosing and Preventing Partial Collapse in Prototypical Self-Supervised Learning},
+author={Arteaga, Gabriel Y. and Aasan, Marius and Chakraborty, Rwiddhi and Hjelkrem-Tan, Martine and Silva, Thalles and Kampffmeyer, Michael and Rivera, Ad{\'\i}n Ram{\'\i}rez},
+booktitle={The Fourteenth International Conference on Learning Representations},
+year={2026},
+url={https://openreview.net/forum?id=fVJEWdwvLO}
 }
 ```
 {% endraw %}
