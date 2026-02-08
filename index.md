@@ -8,32 +8,32 @@ permalink: /
 
 title: "Why Prototypes Collapse: Diagnosing and Preventing Partial Collapse in Prototypical Self-Supervised Learning"
 authors:
-    - name: Gabriel Y. Arteaga
-      link: https://gabriel-arteaga.github.io/
-      affiliation: 1
-    - name: Marius Aasan
-      affiliation: 1
-    - name: Rwiddhi Chakraborty
-      affiliation: 2
-      link: https://rwchakra.github.io/
-    - name: Martine Hjelkrem-Tan
-      affiliation: 1
-    - name: Thalles Silva
-      affiliation: 3
-      link: https://sthalles.github.io/
-    - name: Michael Kampffmeyer
-      affiliation: 2
-      link: https://sites.google.com/view/michaelkampffmeyer
-    - name: Adín Ramírez Rivera
-      affiliation: 1
-      link: https://adin.gitlab.io/
+  - name: Gabriel Y. Arteaga
+    link: https://gabriel-arteaga.github.io/
+    affiliation: 1
+  - name: Marius Aasan
+    affiliation: 1
+  - name: Rwiddhi Chakraborty
+    affiliation: 2
+    link: https://rwchakra.github.io/
+  - name: Martine Hjelkrem-Tan
+    affiliation: 1
+  - name: Thalles Silva
+    affiliation: 3
+    link: https://sthalles.github.io/
+  - name: Michael Kampffmeyer
+    affiliation: 2
+    link: https://sites.google.com/view/michaelkampffmeyer
+  - name: Adín Ramírez Rivera
+    affiliation: 1
+    link: https://adin.gitlab.io/
 affiliations:
-    - name: University of Oslo
-      link: https://uio.no
-    - name: UiT The Arctic University of Norway
-      link: https://en.uit.no/startsida 
-    - name: University of Campinas
-      link: https://unicamp.br/en/
+  - name: University of Oslo
+    link: https://uio.no
+  - name: UiT The Arctic University of Norway
+    link: https://en.uit.no/startsida 
+  - name: University of Campinas
+    link: https://unicamp.br/en/
 paper: https://arxiv.org/abs/2510.20108
 # video: https://www.youtube.com/@UniOslo
 code: https://github.com/dsb-ifi/proto-decoupling
@@ -100,7 +100,7 @@ We update the encoder while keeping the prototypes $C^t$ fixed. Our proposed sol
 Across most existing prototypical SSL frameworks, we observe a consistent pattern of *early* partial prototype collapse, where a substantial subset of the prototypes rapidly becomes redundant within the first stages of training. In contrast, our decoupled optimization strategy exhibits *no observable collapse* throughout training. This behavior remains stable even as we progressively *tighten the criterion used to declare collapse*, i.e., adopting increasingly strict notions of prototype redundancy. While our method also yields improved performance on several downstream tasks, the primary finding is its robustness against prototype collapse, highlighting the effectiveness of decoupling prototype estimation from encoder learning.
 
 
-![proto-dec Figure 3](figures/decoupling_framework.png "Unique Prototypes over Different Thresholds")
+![proto-dec Figure 3](figures/uniq_proto_fig.png "Unique Prototypes over Different Thresholds")
 **Figure 3:** *Left: Percentage of unique prototypes versus the collapse threshold $\epsilon$, where larger $\epsilon$ enforces a stricter notion of uniqueness. Existing methods exhibit increasing prototype collapse as the criterion becomes stricter, whereas our proposed decoupled approach shows no collapse across all thresholds. Right: k-NN performance, indicating that preserving prototype diversity can improve downstream performance.*
 
 ---
