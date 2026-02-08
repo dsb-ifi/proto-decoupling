@@ -28,7 +28,7 @@ authors:
     affiliation: 1
     link: https://adin.gitlab.io/
 affiliations:
-  - name: DSB @ Department of Informatics, University of Oslo
+  - name: University of Oslo
     link: https://www.mn.uio.no/ifi/english/research/groups/dsb/
   - name: UiT The Arctic University of Norway
     link: https://en.uit.no/startsida 
@@ -39,7 +39,7 @@ paper: https://arxiv.org/abs/2510.20108
 code: https://github.com/dsb-ifi/proto-decoupling
 # data: https://huggingface.co/docs/
 
-abstract: "Prototypical self-supervised learning methods consistently suffer from partial prototype collapse, where multiple prototypes converge to nearly identical representations. This undermines their central purpose---providing diverse and informative targets to guide encoders toward rich representations---and has led practitioners to over-parameterize prototype sets or add ad-hoc regularizers, which mitigate symptoms rather than address the root cause. We empirically trace the collapse to the joint optimization of encoders and prototypes, which encourages a type of shortcut learning: early in training prototypes drift toward redundant representations that minimize loss without necessarily enhancing representation diversity. To break the joint optimization, we introduce a fully decoupled training strategy that learns prototypes and encoders under separate objectives. Concretely, we model prototypes as a Gaussian mixture updated with an online EM-style procedure, independent of the encoder's loss. This simple yet principled decoupling eliminates prototype collapse without explicit regularization and yields consistently diverse prototypes, which in several settings translate to improved downstream performance."
+abstract: "Prototypical self-supervised learning methods consistently suffer from partial prototype collapse, where multiple prototypes converge to nearly identical representations. This undermines their central purpose, providing diverse and informative targets to guide encoders toward rich representations, and has led practitioners to over-parameterize prototype sets or add ad-hoc regularizers, which mitigate symptoms rather than address the root cause. We empirically trace the collapse to the joint optimization of encoders and prototypes, which encourages a type of shortcut learning: early in training prototypes drift toward redundant representations that minimize loss without necessarily enhancing representation diversity. To break the joint optimization, we introduce a fully decoupled training strategy that learns prototypes and encoders under separate objectives. Concretely, we model prototypes as a Gaussian mixture updated with an online EM-style procedure, independent of the encoder's loss. This simple yet principled decoupling eliminates prototype collapse without explicit regularization and yields consistently diverse prototypes, which in several settings translate to improved downstream performance."
 
 ---
 
@@ -66,7 +66,8 @@ $$
 We argue that this joint objective can induce *shortcut learning*: early in training, prototypes are incentivized to drift toward redundant configurations that reduce $\mathcal{L}_f$ without necessarily improving the overall representations of the the encoder, undermining the purpose of learning $C$.
 
 
-### Proposed Solution
+### Proposed Solution  
+
 Instead of optimizing $(\theta, C)$ jointly, we propose to *fully decouple* prototype estimation from encoder learning and alternate two updates at iteration $t$:  
 
 **(i) Prototype update**:  
@@ -76,6 +77,7 @@ C^{t} = \operatorname*{arg\,min}_{C\in\mathcal{C}}\; \mathcal{L}_C\left(C^{t-1},
 \end{align}
 $$  
 We update $C$ via an expectation maximization (EM) procedure *independently* of the encoder's loss.  
+
 (ii) **Encoder update:**  
 $$
 \begin{align}
@@ -86,7 +88,7 @@ We update the encoder while keeping the prototypes $C^t$ fixed. Our proposed sol
 
 
 ![proto-dec Figure 2](figures/decoupling_framework.png "Decoupling Framework")
-**Figure 2:** *(a) Joint optimization of the encoder and prototypes, which can induce shortcut learning and prototype collapse. (b) Our decoupled framework which separates prototype updates from encoder learning, preventing collapse and preserving prototype diversity.*
+**Figure 2:** **(a)** *Joint optimization of the encoder and prototypes, which can induce shortcut learning and prototype collapse. * **(b)** *Our decoupled framework which separates prototype updates from encoder learning, preventing collapse and preserving prototype diversity.*
 
 ---
 
@@ -95,7 +97,7 @@ Across most existing prototypical SSL frameworks, we observe a consistent patter
 
 
 ![proto-dec Figure 3](figures/uniq_proto_fig.png "Unique Prototypes over Different Thresholds")
-**Figure 3:** *Left: Percentage of unique prototypes versus the collapse threshold $\epsilon$, where larger $\epsilon$ enforces a stricter notion of uniqueness. Existing methods exhibit increasing prototype collapse as the criterion becomes stricter, whereas our proposed decoupled approach shows no collapse across all thresholds. Right: k-NN performance, indicating that preserving prototype diversity can improve downstream performance.*
+**Figure 3:** **Left:** *Percentage of unique prototypes versus the collapse threshold $\epsilon$, where larger $\epsilon$ enforces a stricter notion of uniqueness. Existing methods exhibit increasing prototype collapse as the criterion becomes stricter, whereas our proposed decoupled approach shows no collapse across all thresholds.* **Right:** *k-NN performance, indicating that preserving prototype diversity can improve downstream performance.*
 
 ---
 ## Citation
