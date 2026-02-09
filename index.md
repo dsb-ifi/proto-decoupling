@@ -58,9 +58,9 @@ Prototypical self-supervised learning (SSL) uses learnable prototypes to define 
 
 Traditional prototypical SSL *jointly* optimizes an encoder $f_\theta$ and a prototype set $C = \\{c_k\\}_{k=1}^K$ by minimizing a consistency loss over augmented views:  
 $$
-\begin{align}
+\begin{equation}
 \min_{\theta,\,C}\; \mathcal{L}_f(f_\theta, C).
-\end{align}
+\end{equation}
 $$  
 
 We argue that this joint objective can induce *shortcut learning*: early in training, prototypes are incentivized to drift toward redundant configurations that reduce $\mathcal{L}_f$ without necessarily improving the overall representations of the the encoder, undermining the purpose of learning $C$.
@@ -72,17 +72,17 @@ Instead of optimizing $(\theta, C)$ jointly, we propose to *fully decouple* prot
 
 **(i) Prototype update**:  
 $$
-\begin{align}
+\begin{equation}
 C^{t} = \operatorname*{arg\,min}_{C\in\mathcal{C}}\; \mathcal{L}_C\left(C^{t-1}, h^{t}_\phi\right).
-\end{align}
+\end{equation}
 $$  
 We update $C$ via an expectation maximization (EM) procedure *independently* of the encoder's loss.  
 
 (ii) **Encoder update:**  
 $$
-\begin{align}
+\begin{equation}
 \theta^{t+1}=\operatorname*{arg\,min}_{\theta}\;\mathcal{L}_f \left(h^t_\theta, C^{t}\right).
-\end{align}
+\end{equation}
 $$  
 We update the encoder while keeping the prototypes $C^t$ fixed. Our proposed solution is illustrated in the figure below: 
 
