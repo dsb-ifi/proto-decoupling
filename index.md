@@ -105,7 +105,7 @@ Across most existing prototypical SSL frameworks, we observe a consistent patter
 ```
 @inproceedings{arteaga2026prototypes,
 title={Why Prototypes Collapse: Diagnosing and Preventing Partial Collapse in Prototypical Self-Supervised Learning},
-author={Arteaga, Gabriel Y. and Aasan, Marius and Chakraborty, Rwiddhi and Hjelkrem-Tan, Martine and Silva, Thalles and Kampffmeyer, Michael and Rivera, Ad{\'\i}n Ram{\'\i}rez},
+author={Arteaga, Gabriel Y. and Aasan, Marius and Chakraborty, Rwiddhi and Hjelkrem-Tan, Martine and Silva, Thalles and Kampffmeyer, Michael and Rivera, Ad\'in Ram\'irez},
 booktitle={The Fourteenth International Conference on Learning Representations},
 year={2026},
 url={https://openreview.net/forum?id=fVJEWdwvLO}
