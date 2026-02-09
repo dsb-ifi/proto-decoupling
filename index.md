@@ -26,7 +26,7 @@ authors:
     link: https://sites.google.com/view/michaelkampffmeyer
   - name: Adín Ramírez Rivera
     affiliation: 1
-    link: https://adin.gitlab.io/
+    link: https://www.mn.uio.no/ifi/english/people/aca/adinr
 affiliations:
   - name: University of Oslo
     link: https://www.mn.uio.no/ifi/english/research/groups/dsb/
