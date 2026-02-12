@@ -12,9 +12,9 @@ authors:
     link: https://gabriel-arteaga.github.io/
     affiliation: 1
   - name: Marius Aasan
-    affiliation: 1, 4
+    affiliation: 1
   - name: Rwiddhi Chakraborty
-    affiliation: 2, 4
+    affiliation: 2
     link: https://rwchakra.github.io/
   - name: Martine Hjelkrem-Tan
     affiliation: 1
@@ -25,7 +25,7 @@ authors:
     affiliation: 2
     link: https://sites.google.com/view/michaelkampffmeyer
   - name: Adín Ramírez Rivera
-    affiliation: 1, 4
+    affiliation: 1
     link: https://www.mn.uio.no/ifi/english/people/aca/adinr
 affiliations:
   - name: University of Oslo
@@ -34,9 +34,7 @@ affiliations:
     link: https://en.uit.no/startsida 
   - name: University of Campinas
     link: https://unicamp.br/en/
-  - name: Visual Intelligence
-    link: https://www.visual-intelligence.no/
-paper: https://arxiv.org/abs/2510.20108
+paper: https://openreview.net/forum?id=fVJEWdwvLO
 # video: https://www.youtube.com/@UniOslo
 code: https://github.com/dsb-ifi/proto-decoupling
 # data: https://huggingface.co/docs/
